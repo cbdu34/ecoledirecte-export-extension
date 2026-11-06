@@ -12,27 +12,85 @@ Extension Chrome (Manifest V3) qui exporte en un clic les données d'un compte �
 
 L'extension utilise la session EcoleDirecte déjà ouverte dans le navigateur. Elle ne demande ni ne stocke le mot de passe.
 
-## Installation
+## Installation en 2 minutes
 
-1. Télécharger ou copier le dossier `ecoledirecte-export-extension` sur l'ordinateur.
-2. Ouvrir Chrome et aller à l'adresse `chrome://extensions`.
-3. Activer le **Mode développeur** (interrupteur en haut à droite).
-4. Cliquer sur **Charger l'extension non empaquetée**.
-5. Sélectionner le dossier `ecoledirecte-export-extension`.
-6. Épingler l'extension dans la barre d'outils (icône puzzle → épingle).
+> Compatible avec **Chrome, Edge, Brave et Opera** (navigateurs Chromium). Firefox n'est pas pris en charge.
 
-Après l'installation, **recharger l'onglet EcoleDirecte** une fois pour que le content script soit injecté.
+### Étape 1 — Télécharger l'extension (30 secondes)
 
-## Utilisation
+1. Aller sur la page GitHub du projet :
+   **https://github.com/cbdu34/ecoledirecte-export-extension**
+2. Cliquer sur le bouton vert **`<> Code`** puis sur **`Download ZIP`**.
+3. Ouvrir le fichier ZIP téléchargé et **l'extraire** :
+   - Windows : clic droit sur le ZIP → **Extraire tout…**
+   - macOS : double-clic sur le ZIP
+   - Linux : clic droit → **Extraire ici**
+4. Un dossier nommé `ecoledirecte-export-extension-main` apparaît. **Ne pas supprimer ce dossier** : l'extension en a besoin pour fonctionner, même après l'installation.
 
-1. Se connecter à [EcoleDirecte](https://www.ecoledirecte.com) dans Chrome.
-2. Rester sur une page EcoleDirecte (n'importe laquelle après connexion).
-3. Cliquer sur l'icône de l'extension.
-4. Vérifier que le nom de l'élève et l'établissement sont détectés.
-5. Cliquer sur **Exporter mes données pour l'IA**.
-6. Attendre la fin de l'export : le fichier `export_ecoledirecte.json` est téléchargé automatiquement.
+> ⚠️ Il faut sélectionner le **dossier extrait**, pas le fichier ZIP.
 
-L'export peut prendre quelques dizaines de secondes : l'extension interroge l'API EcoleDirecte pour chaque journée de devoirs, chaque message et chaque espace de travail.
+### Étape 2 — Charger l'extension dans Chrome (30 secondes)
+
+1. Ouvrir un nouvel onglet et taper dans la barre d'adresse :
+   ```
+   chrome://extensions
+   ```
+   (Sur Edge : `edge://extensions`. Sur Brave : `brave://extensions`.)
+2. En haut à droite, activer l'interrupteur **Mode développeur**.
+3. Cliquer sur **Charger l'extension non empaquetée**.
+4. Dans la fenêtre qui s'ouvre, sélectionner le dossier **`ecoledirecte-export-extension-main`** (celui qui contient directement le fichier `manifest.json`), puis valider.
+
+La carte « Export EcoleDirecte pour l'IA » doit apparaître dans la liste.
+
+> Si Chrome affiche « Fichier manifest introuvable » : vous avez sélectionné le ZIP ou le dossier parent. Recommencez en ouvrant le dossier extrait jusqu'à voir `manifest.json`, puis sélectionnez ce dossier.
+
+### Étape 3 — Épingler l'extension (10 secondes)
+
+1. Cliquer sur l'icône **puzzle** 🧩 à droite de la barre d'adresse.
+2. Cliquer sur l'épingle à côté de **Export EcoleDirecte pour l'IA**.
+
+L'icône de l'extension apparaît maintenant en permanence dans la barre d'outils.
+
+### Étape 4 — Recharger EcoleDirecte (10 secondes)
+
+1. Ouvrir **https://www.ecoledirecte.com** et se connecter normalement (identifiant + mot de passe, comme d'habitude).
+2. Une fois connecté, **recharger la page** avec `F5` ou `Ctrl+R` (`Cmd+R` sur Mac).
+
+> Cette étape est indispensable après l'installation : elle permet à l'extension de récupérer la session EcoleDirecte déjà ouverte. L'extension ne demande jamais le mot de passe.
+
+### Étape 5 — Lancer l'export (30 secondes)
+
+1. Rester sur **n'importe quelle page EcoleDirecte** (accueil, notes, cahier de textes…).
+2. Cliquer sur l'icône de l'extension dans la barre d'outils.
+3. Vérifier que le popup affiche :
+   - le **nom de l'élève** ;
+   - l'**établissement** et la **classe** ;
+   - le badge vert **« Session active »**.
+4. Cliquer sur **« Exporter mes données pour l'IA »**.
+5. Attendre la fin de la barre de progression. Le fichier **`export_ecoledirecte.json`** est téléchargé automatiquement dans le dossier **Téléchargements**.
+
+L'export prend généralement **20 à 60 secondes** : l'extension interroge EcoleDirecte pour chaque journée de devoirs, chaque message et chaque espace de travail.
+
+### Vérification rapide
+
+L'installation est réussie si :
+
+- ✅ l'icône de l'extension est visible dans la barre d'outils ;
+- ✅ le popup affiche le nom de l'élève et le badge **« Session active »** ;
+- ✅ le bouton d'export est cliquable ;
+- ✅ le fichier `export_ecoledirecte.json` apparaît dans les téléchargements.
+
+### Si le bouton est grisé
+
+Le bouton ne fonctionne que sur un onglet EcoleDirecte. Ouvrir `https://www.ecoledirecte.com`, se connecter, puis rouvrir le popup.
+
+### Si le nom de l'élève n'apparaît pas
+
+Recharger la page EcoleDirecte (`F5`), attendre 2 secondes, puis rouvrir le popup.
+
+### Après un redémarrage de Chrome
+
+L'extension reste installée. Si Chrome affiche un message demandant de désactiver les extensions en mode développeur, cliquer sur **Conserver**. Ne pas déplacer ni supprimer le dossier `ecoledirecte-export-extension-main`.
 
 ## Structure du fichier JSON
 
@@ -160,12 +218,16 @@ Accès réseau limité à `https://*.ecoledirecte.com/*`.
 
 | Problème | Solution |
 | --- | --- |
+| « Fichier manifest introuvable » | Vous avez sélectionné le ZIP ou le dossier parent. Sélectionner le dossier extrait qui contient directement `manifest.json`. |
+| Le bouton d'export est grisé | Ouvrir une page `https://www.ecoledirecte.com/...` après connexion, puis rouvrir le popup. |
 | « EcoleDirecte non détecté » | Ouvrir une page `https://www.ecoledirecte.com/...` après connexion, puis rouvrir le popup. |
-| Le nom de l'élève n'apparaît pas | Recharger la page EcoleDirecte (le content script doit être injecté). |
+| Le nom de l'élève n'apparaît pas | Recharger la page EcoleDirecte (`F5`) pour injecter le content script. |
 | « Jeton EcoleDirecte introuvable » | Vérifier que la session est active, recharger la page, puis réessayer. |
 | « La session EcoleDirecte a expiré » | Se reconnecter à EcoleDirecte, recharger la page, puis relancer l'export. |
 | L'export reste bloqué | Fermer et rouvrir le popup : l'état de l'export est conservé. Si l'export a été interrompu, relancer. |
 | Le téléchargement ne démarre pas | Vérifier les autorisations de téléchargement de Chrome et l'espace disque disponible. |
+| Chrome demande de désactiver l'extension au démarrage | Cliquer sur **Conserver**. C'est normal pour une extension chargée manuellement. |
+| L'extension a disparu après redémarrage | Le dossier de l'extension a été déplacé ou supprimé. Recharger l'extension depuis `chrome://extensions` en sélectionnant à nouveau le dossier extrait. |
 
 ## Développement
 
