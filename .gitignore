@@ -1,0 +1,7 @@
+# Fichier d'export généré par l'extension (données personnelles)
+export_ecoledirecte.json
+
+# Dépendances et fichiers système
+node_modules/
+.DS_Store
+Thumbs.db
